@@ -7,7 +7,7 @@ const express = require("express");
 const app = express();
 
 //route handler
-app.get("/greeting", (req, res) => {
+app.get("/", (req, res) => {
   res.send({ hi: "there" });
 });
 

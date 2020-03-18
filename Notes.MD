@@ -97,10 +97,13 @@ We push our *local git repository* set up above to our *remote git repository* (
 ### Continuous Deployment
 
 **Commit codebase with git**
-Upon any changes to the app, do the usual git commits:
+Upon any changes to the app, do the process for the usual git commi:
 
 `git status``
 ``git add .``
 ``git commit -m "changes'`
 
 **Deploy App with Git**
+
+`git push heroku master`
+
