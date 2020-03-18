@@ -63,11 +63,44 @@ Instructing Heroku to not commit unwanted things such as all our dependencies (n
 Create *.gitignore* file at root of the folder and add
 `node_modules`
 
-### Deployment
+### Initial Deployment
 
 **Create account**
 
 **Commit our codebase to git**
+In terminal of the directory of the app
 
+`git init`
+`git add .`
+`git commit -m "initial commit"`
 
+**Install Heroku CLI and create app**
+Follow instructions at (macs: assumes you've installed home-brew):
 
+https://devcenter.heroku.com/articles/heroku-cli
+
+After installation, write the following into the terminal:
+
+`heroku login`
+
+`heroku create`
+
+Two links will be provided in the terminal, one an to access your app to view online, second a **remote git repository** which is our *deployment target*.
+
+We push our *local git repository* set up above to our *remote git repository* (managed by heroku) which will deploy changes to Heroku. In terminal:
+
+`git remote add heroku [remote git repository]`
+*might exist already*
+
+`git push heroku master`
+
+### Continuous Deployment
+
+**Commit codebase with git**
+Upon any changes to the app, do the usual git commits:
+
+`git status``
+``git add .``
+``git commit -m "changes'`
+
+**Deploy App with Git**
