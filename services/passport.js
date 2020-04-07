@@ -17,12 +17,14 @@ passport.deserializeUser((id, done) => {
   });
 });
 
+//
 passport.use(
   new GoogleStrategy(
     {
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
-      callbackURL: "/auth/google/callback" //route the user will be sent after they grant permissions to out applications (redirect URI)
+      callbackURL: "/auth/google/callback", //route the user will be sent after they grant permissions to out applications (redirect URI)
+      proxy: true //telling googleStrategy to trust any proxy, in this case the heroku proxy
     }, 
     //callback function that gets called once the user is redirected back to our application from the OAuth flow.
     (accessToken, refreshToken, profile, done) => {
