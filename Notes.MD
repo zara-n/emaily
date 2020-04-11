@@ -139,6 +139,22 @@ Upon any changes to the app, do the process for the usual git commi:
 
 `git push heroku master`
 
+### Heroku Build
+
+We need to build production assets after dependencies are installed.
+
+https://devcenter.heroku.com/articles/nodejs-support#customizing-the-build-process
+
+We tell Heroku to install client dependencies. and we tell Heroku to run `npm run build`
+
+Inside server directory, in package.json under `"scripts"`:
+
+`"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"`
+
+
+
+
+
 ## Google OAuth
 
 Allows for a sign up / sign in (authentication) with Google.
@@ -242,11 +258,17 @@ By default HTTP (requests) is **stateless**: one HTTP request itself does not sh
 
 For Authentication, tokens are used as they hold information for follow up HTTP request, to identify requests - used between browsers and servers. Browsers will automatically append that token/cookie and use it for any follow up server requests.
 
-### Cookies
+### Cookies-session
 
 Express cannot deal with cookies directly, therefore a helper module is needed to handle cookies:
 
 `npm install --save cookie-session`
+
+Cookies-session puts cookie data inside req.session & passport will look for relevant data inside req.session
+
+All relevant data (14kb max) with cookie-session is stored inside the cookie, as opposed to *express-session* which stores the information remotely (e.g. database) without a size limit. Since this application only require to store the user's ID (a small piece of data) - so cookie-session will suffice.
+
+
 
 ## MongoDB
 
@@ -283,7 +305,130 @@ For production environment we check for environment variables (Heroku), e.g.:
 
 And assign the config variables inside Heroku (in settings). 
 
+### Express vs React Server
 
+Express has route handlers for requests, and React has route handlers for rendering pages/components.
+
+Therefore, Express needs to be instructed to assume that any routes that it does not have handlers for, it is not responsible for.
+
+## Create React App - The Front End
+
+Inside the server/project directory 
+
+`npx create-react-app client`
+
+### Setting up proxy in Create React App 2.0 & 3.0 for our DEVELOPMENT ENVIRONMENT
+
+IN DEVELOPMENT: Inside the client (front end) part of the application we want to allow the user to sign in using google and redirect them to our oAuth flow which sits in our back end server in a different port. To redirect them to `/auth/google` dynamically dependant on wether we are in our dev or production environment we must set up some sort of proxy:
+
+in client directory:
+
+`npm install http-proxy-middleware@0.21.0`
+
+And added proxies to `setupProxy.js` inside `client/src/` (no need to import):
+
+`const proxy = require("http-proxy-middleware");
+module.exports = function(app) {
+	app.use(proxy(['/api', '/auth/google'], { target: 'http://localhost:5000' }));`
+`}`
+
+### **IMPORTANT**
+
+Whitelist / add a second URI redirect to the Google Project:
+
+`http://localhost:3000/auth/google/callback`
+
+## Two Concurrent Servers
+
+Front end react server (client) needs to run at the same time as the back end server (express).
+
+Inside *package.json* under `"scripts"` to allow for both servers to run concurrently -under the **server's** directory:
+
+`"scripts": {
+	"start": "node index.js",
+	"server": "nodemon index.js",
+	"client": "npm run start --prefix client",
+	"dev": "concurrently \"npm run server\" \"npm run client\""`
+`}`
+
+"*Concurrently*" module allows for both servers to run with one command:
+
+`npm install --save concurrently`
+
+## React & More  
+
+### Redux
+
+Inside client directory:
+`npm install --save redux react-redux`
+
+### React-Router
+
+Inside client directory:
+`npm install --save react-router-dom`
+
+### Thunk
+
+Middleware necessary to maintain asyn actions to behave the it is expected, in client directory:
+
+`npm install --save redux-thunk`
+
+Default/vanilla Redux action creators expect an action to be **immediately** returned, Thunk allows us direct access to the dispatch function and use it manually that is automatically returned otherwise(behind the scenes).
+
+### Axios
+
+Axios is responsible to make API/Ajax requests to the back end API, in client directory:
+
+`npm install --save axios`
+
+## Materialize 
+
+https://materializecss.com/
+
+CSS library that is only partly compatible with React.
+
+In client directory:
+
+`npm install --save materialize-css`
+
+## Stripe (Payment method)
+
+Stripe is a payment api.
+
+https://dashboard.stripe.com/
+
+For the front end portion, in the client directory:
+
+`npm install --save react-stripe-checkout`
+
+Add the API keys from the Strip dashboard to the keys file in config
+
+`stripePublishableKey`
+`stripeSecretKey`
+
+In production mode update the config variables inside heroku settings.
+
+In the client directory setup .env.production & .env.development files to store front end publishable key. https://create-react-app.dev/docs/adding-custom-environment-variables/
+
+For the back end portion, in the server directory:
+
+`npm install --save stripe`
+
+https://www.npmjs.com/package/stripe
+
+On creating a charge: https://stripe.com/docs/api/charges/create
+
+## Body-Parser ( Express & Parsing Post Requests)
+
+When a POST request is made to an Express server, it does not by default parse the request payload. Therefore a module helper is required:
+
+https://www.npmjs.com/package/body-parser
+
+In server directory:
+
+`npm install --save body-parser`
+
+Payload data will be put in `req` and can be accessed with `req.body`
 
 ## Appendix
 
