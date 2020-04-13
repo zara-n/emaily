@@ -433,7 +433,7 @@ Add api keys to server config keys file, (prod & heroku, dev);
 
 ## Ngrock & Webhooks in Development
 
-Localtunnel allows for Sendgrid to make a post request to our local express server in development mode.
+Ngrok allows for Sendgrid to make a post request to our local express server in development mode.
 
 Ngrock listens for requests made by Sendgrid which is then forwarded to the local host express server.
 
