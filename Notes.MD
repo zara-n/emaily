@@ -476,6 +476,8 @@ This address that was generated will only exist for 8 hours.The terminal session
 
 In sendgrid dashboard settings, under **event web hooks / notifications** enter in ngrok generated address to HTTP Post URL with suffix `/api/surveys/webhooks` (the route handler)  and **enable webhook status**
 
+Will have to be replaced for production mode with heroku, or seperate sendgrid account can be made as only 1 POST URL is allowed per Sendgrid account.
+
 https://app.sendgrid.com/settings/mail_settings
 
 Test the integration.
