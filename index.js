@@ -9,6 +9,7 @@ const passport = require("passport"); //we need to tell passport to make use of 
 const bodyParser = require("body-parser");
 
 require("./models/User");
+require("./models/Survey");
 require("./services/passport");
 
 //this app object is used to set up confirguation to listen to incoming requests from node and route those to route handlers to deal with those requests
@@ -33,6 +34,7 @@ app.use(passport.session());
 
 require("./routes/authRoutes")(app);
 require("./routes/billingRoutes")(app);
+require("./routes/surveyRoutes")(app);
 
 if(process.env.NODE_ENV ==="production"){
   //order matters

@@ -4,17 +4,17 @@
 
 Users can create surveys and send them out to people's emails using credits (paid for), the app will tabulate and display the data on a React UI. 
 
-See [Appendix 1.1](#Appendix) for a high level overview of   *how it works*  behind the scenes.
+(pending) See [Appendix 1.1](#Appendix) for a high level overview of   *how it works*  behind the scenes.
 
 ## Architecture of App
 
 This app will be using React, Redux, Node / Express API,  and MongoDB.
 
-See Appendix 1.2 for *how it works* behind the scenes.
+(pending) See Appendix 1.2 for *how it works* behind the scenes.
 
 ## Node.js & Express
 
-See Appendix 2.1 for a high level overview of  *how it works* behind the scenes.
+(pending) See Appendix 2.1 for a high level overview of  *how it works* behind the scenes.
 
 ### 101
 
@@ -79,6 +79,8 @@ We need to tell Heroku to use  specific/compatible version of node.
 "node": "8.1.1",
 "npm": "5.0.3"` 
 ` },`
+
+NOTE: Can cause error, matching node version to one on machine can fix issue.
 
 **Specify start script**
 Instructing Heroku what command to run to start our server running.
@@ -287,6 +289,8 @@ Allows the easier use of MongoDB and creating MongoDB collections.
 
 **Model Instances** represent individual **MongoDB records** within collections. (e.g. a single user).
 
+**Important:** For the seperate production project in MongoDB make sure to whitelist all IPs so that Heroku can access it. (0.0.0.0/0)
+
 ## Production Vs Development
 
 Seperate Mongodatabase & Google API  key have been set up to seperate production (Heroku) vs Development Environements.
@@ -381,6 +385,16 @@ Axios is responsible to make API/Ajax requests to the back end API, in client di
 
 `npm install --save axios`
 
+### Redux-Form
+
+Making wiring up state to forms easier, especially for survey form review (wizard type form).
+
+https://redux-form.com/8.3.0/
+
+In client directory: (specific version to avoid bugs in new version)
+
+`npm install --save redux-form@8.1.0` 
+
 ## Materialize 
 
 https://materializecss.com/
@@ -429,6 +443,56 @@ In server directory:
 `npm install --save body-parser`
 
 Payload data will be put in `req` and can be accessed with `req.body`
+
+## SendGrid (email API)
+
+A helper module to help create and send emails using SendGrid, in server directory:
+
+`npm install --save sendgrid`
+
+https://sendgrid.com/
+
+https://app.sendgrid.com/settings/api_keys
+
+Add api keys to server config keys file, (prod & heroku, dev);
+
+## Ngrock & Webhooks in Development
+
+Localtunnel allows for Sendgrid to make a post request to our local express server in development mode. 
+
+Ngrock listens for requests made by Sendgrid which is then forwarded to the local host express server.
+
+We can use npx to run ngrok and have it forward traffic to port 5000 without installing anything. To do this, open a brand new terminal and run:
+
+`npx ngrok http 5000`
+
+This will launch up a pop-up window with the address that can be used.
+
+This address that was generated will only exist for 8 hours.The terminal session should remain open and running during development.  
+
+`npx ngrok http 5000`x can be re-ran and the address will be different. Ngrok generated address may need to be updated several times in the Sendgrid dashboard through the development process.
+
+### Sendgrid integration
+
+In sendgrid dashboard settings, under **event web hooks / notifications** enter in ngrok generated address to HTTP Post URL with suffix `/api/surveys/webhooks` (the route handler)  and **enable webhook status**
+
+https://app.sendgrid.com/settings/mail_settings
+
+Test the integration.
+
+Select desired event notification post, in the case of this project **Click events.**
+
+## Path-parser
+
+Allows us to extract necessary information out of URL paths, in sever directory:
+
+`npm install --save path-parser`
+
+## Lodash
+
+For some javascript helpers, in sever directory:
+
+ `npm install --save lodash`
 
 ## Appendix
 
