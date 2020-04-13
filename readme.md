@@ -4,7 +4,7 @@ A work in progress for new features and a fancier UI, however the "MVP" so to sp
 
 The main purpose of this project was to learn Node.js in depth and utilise its functionalities.
 
-This read me is essentially a diary of libraries, APIs, code and helpers I have used, explaining why I have used them and how I have incorporated them into my applications.
+This read me is essentially a diary of libraries, APIs, code and helpers I have used, explaining why I have used them and how I have incorporated them into my application.
 
 `npm run dev`
 
