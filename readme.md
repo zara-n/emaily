@@ -2,13 +2,13 @@
 
 A work in progress for new features and a fancier UI, however the "MVP" so to speak is completed. 
 
-The main purpose of this project was to learn Node.js in depth and utilise it's functionalities.
+The main purpose of this project was to learn Node.js in depth and utilise its functionalities.
 
 This read me is essentially a diary of libraries, APIs, code and helpers I have used, explaining why I have used them and how I have incorporated them into my applications.
 
 `npm run dev`
 
-Will not be able to run on your local machine if you don't have the appropriate API keys (that have not been commited)
+You will not be able to run on your local machine if you don't have the appropriate API keys (that have not been commited).
 
 ## What is this app?
 
