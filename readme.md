@@ -461,13 +461,13 @@ Select desired event notification post, in the case of this project **Click even
 
 ## Path-parser
 
-Allows us to extract necessary information out of URL paths, in sever directory:
+Allows us to extract necessary information out of URL paths, in server directory:
 
 `npm install --save path-parser`
 
 ## Lodash
 
-For some javascript helpers, in sever directory:
+For some javascript helpers, in server directory:
 
 `npm install --save lodash`
 
